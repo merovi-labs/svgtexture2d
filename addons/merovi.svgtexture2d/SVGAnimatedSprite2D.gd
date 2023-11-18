@@ -9,22 +9,30 @@ class_name SVGAnimatedSprite2D
 		SVGTexture = value
 		_update_texture()
 
-@export var Scale: float = 1.0:
+@export var Resolution: float = 1.0:
 	get:
-		return Scale
+		return Resolution
 	set(value):
-		Scale = value
+		Resolution = value
+		_update_texture()
+
+@export var sprite_size : float = 1.0:
+	get:
+		return sprite_size
+	set(value):
+		sprite_size = value
 		_update_texture()
 
 func _update_texture():
 	if SVGTexture:
 		var frames = SpriteFrames.new()
 		for i in range(SVGTexture.frames.size()):
-			var image = _rasterize_svg(SVGTexture.svg_data, Scale, SVGTexture.frames[i])
+			var image = _rasterize_svg(SVGTexture.svg_data, sprite_size * Resolution, SVGTexture.frames[i])
 			var texture = ImageTexture.new()
 			texture.set_image(image)
 			frames.add_frame("default", texture)
 		self.sprite_frames = frames
+	scale = Vector2(1.0 / Resolution, 1.0 / Resolution)
 
 func _rasterize_svg(data, scale, frameData):
 	var image = Image.new()

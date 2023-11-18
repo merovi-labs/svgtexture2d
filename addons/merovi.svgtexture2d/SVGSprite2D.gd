@@ -9,19 +9,27 @@ class_name SVGSprite2D
 		SVGTexture = value
 		_update_texture()
 
-@export var Scale: float = 1.0:
+@export var Resolution: float = 1.0:
 	get:
-		return Scale
+		return Resolution
 	set(value):
-		Scale = value
+		Resolution = value
+		_update_texture()
+
+@export var sprite_size : float = 1.0:
+	get:
+		return sprite_size
+	set(value):
+		sprite_size = value
 		_update_texture()
 
 func _update_texture():
 	if SVGTexture:
-		var image = _rasterize_svg(SVGTexture.svg_data, Scale, SVGTexture.frames[0])
+		var image = _rasterize_svg(SVGTexture.svg_data, sprite_size * Resolution, SVGTexture.frames[0])
 		var texture = ImageTexture.new()
 		texture.set_image(image)
 		self.texture = texture
+	scale = Vector2(1.0 / Resolution, 1.0 / Resolution)
 
 func _rasterize_svg(data, scale, frameData):
 	var image = Image.new()
@@ -30,3 +38,4 @@ func _rasterize_svg(data, scale, frameData):
 	var cropped = Image.create(frameData.z, frameData.w, false, image.get_format())
 	cropped.blit_rect(image, Rect2i(frameData.x, frameData.y, frameData.z, frameData.w), Vector2(0, 0))
 	return cropped
+	

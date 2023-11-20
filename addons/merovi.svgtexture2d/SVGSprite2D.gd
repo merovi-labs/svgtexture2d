@@ -23,6 +23,14 @@ class_name SVGSprite2D
 		sprite_size = value
 		_update_texture()
 
+func _ready():
+	var camera = get_viewport().get_camera_2d()
+	if camera and camera is SVGCamera2D:
+		(camera as SVGCamera2D).zoom_changed.connect(_on_zoom_change)
+
+func _on_zoom_change(zoom):
+	Resolution = zoom
+
 func _update_texture():
 	if SVGTexture:
 		var image = _rasterize_svg(SVGTexture.svg_data, sprite_size * Resolution, SVGTexture.frames[0])

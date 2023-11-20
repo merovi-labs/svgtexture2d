@@ -17,6 +17,7 @@ This is a custom resource type that allows you to import SVG files directly into
 
 * svg_data: Contains the SVG data of the imported file.
 * frames: A list of frames for animations, defined by their crop areas. A frame is represented as a four-float-tuple containing x, y, width, height, all as percentages of the original width/height of the SVG.
+* frames_import_dimensions: A list of sizes (Vector2), in the original pixel sizes, of each frame.
 
 ### SVGSprite2D Node (Derived from `Sprite2D`)
 
@@ -25,7 +26,8 @@ A custom node that uses the SVGTexture2D resource to display SVGs in your scenes
 #### Properties
 
 * SVGTexture: The `SVGTexture2D` resource that this node displays.
-* Scale: The scale at which the SVG is rasterized. Changing this will re-rasterize the SVG.
+* Sprite Size: The physical size of the sprite on the screen. If you set this number to 1.0, it's equal to the original dimensions of the file. 2.0 makes it twice the size on screen. Changing this re-rasterizes the texture.
+* Resolution: The sub-pixel depth of each of the sprite. If you set this number to 1.0, it means for each pixel rendered on screen, the texture has 1 pixel. If you set it to > 1.0, you can effectively zoom into the texture without losing quality. Used for SVGCamera2D zooming. Changing this re-rasterizes the texture.
 
 ### SVGAnimatedSprite2D Node (Derived from `AnimatedSprite2D`)
 
@@ -34,7 +36,16 @@ An animated sprite node that allows playing animations defined in the SVGTexture
 #### Properties
 
 * SVGTexture: The `SVGTexture2D` resource containing the animation frames.
-* Scale: The scale at which the SVG is rasterized. Changing this will re-rasterize the SVG Animation for each frame.
+* Sprite Size: The physical size of the sprite on the screen. If you set this number to 1.0, it's equal to the original dimensions of the file. 2.0 makes it twice the size on screen. Changing this re-rasterizes each frame of the texture.
+* Resolution: The sub-pixel depth of each of the sprite. If you set this number to 1.0, it means for each pixel rendered on screen, the texture has 1 pixel. If you set it to > 1.0, you can effectively zoom into the texture without losing quality. Used for SVGCamera2D zooming. Changing this re-rasterizes each frame of the texture.
+
+### SVGCamera2D Node (Derived from `Camera2D`)
+
+This is an extended Camera2D that automatically handles zooming based on viewport resizes. It works similar to the stretch mode, but it's behavior is a bit more what you'd expect for a resize. Note that it also fires off a zoom_changed signal that `SVGSprite2D` and `SVGAnimatedSprite2D` nodes hook into for automatically re-rasterizing based on camera zoom.
+
+#### Signals
+
+* Zoom Changed: Triggered any time the viewport is resized and, therefore, the camera's zoom has changed.
 
 ## Purpose
 
@@ -53,6 +64,8 @@ In the Godot editor, drag and drop your SVG file into the FileSystem tab.
 When prompted for the import settings, select `SVGTexture2D` from the Import dropdown.
 
 Your SVG is now imported as an `SVGTexture2D` resource. You can use it with `SVGSprite2D` or `SVGAnimatedSprite2D` nodes in your scenes.
+
+You can then add an `SVGCamera2D` and you should be able to resize the game and see your `SVGSprite2D` assets automatically accounting for the change in zoom.
 
 ## License
 

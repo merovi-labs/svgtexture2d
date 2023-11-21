@@ -45,5 +45,6 @@ func _rasterize_svg(data, scale, frameData):
 	frameData *= Vector4(image.get_width(), image.get_height(), image.get_width(), image.get_height())
 	var cropped = Image.create(frameData.z, frameData.w, false, image.get_format())
 	cropped.blit_rect(image, Rect2i(frameData.x, frameData.y, frameData.z, frameData.w), Vector2(0, 0))
+	cropped.fix_alpha_edges()
 	return cropped
 	

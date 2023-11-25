@@ -27,27 +27,22 @@ func _save(resource, path, flags):
 	file.store_8(0x1) # Version 1.
 	
 	# Write the frames for the svg.
-	var frames = (resource as SVGTexture2D).frames
+	var frames = (resource as SVGTexture2D).svg_data_frames
 	file.store_32(frames.size())
 	for i in range(frames.size()):
-		file.store_float((frames[i] as Vector4).x)
-		file.store_float((frames[i] as Vector4).y)
-		file.store_float((frames[i] as Vector4).z)
-		file.store_float((frames[i] as Vector4).w)
-
-	var svg_data = (resource as SVGTexture2D).svg_data.to_utf8_buffer()
+		var svg_data = (resource as SVGTexture2D).svg_data_frames[i].to_utf8_buffer()
 	
-	# Compress the data
-	var svg_data_compressed = PackedByteArray(svg_data).compress()
+		# Compress the data
+		var svg_data_compressed = PackedByteArray(svg_data).compress()
 	
-	# Write the lengths of the compressed data
-	file.store_32(svg_data_compressed.size())
-	
-	# Write the lengths of the uncompressed data
-	file.store_32(svg_data.size())
-	
-	# Write the compressed data
-	file.store_buffer(svg_data_compressed)
+		# Write the lengths of the compressed data
+		file.store_32(svg_data_compressed.size())
+		
+		# Write the lengths of the uncompressed data
+		file.store_32(svg_data.size())
+		
+		# Write the compressed data
+		file.store_buffer(svg_data_compressed)
 	
 	file.close()
 	return OK

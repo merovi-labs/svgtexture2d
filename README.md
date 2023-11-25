@@ -1,23 +1,41 @@
 # SVG Rasterization Plugin for Godot 4.2
 
-This Godot plugin provides the functionality to re-rasterize vector assets at runtime, allowing for crisp and clear vector images regardless of camera zoom. This offers an advantage over traditional mipmaps, which can often result in blurry images when scaled.
+This Godot plugin provides the functionality to re-rasterize vector assets at runtime, offering crisp and clear vector images regardless of camera zoom. This is advantageous over traditional mipmaps, which can result in blurry images when scaled.
 
 ## Requirements
 
 Godot 4.2 or newer.
 
-
 ## Features
 
 ### SVGTexture2D Resource
 
-This is a custom resource type that allows you to import SVG files directly into Godot.
+This custom resource type allows for importing SVG files directly into Godot. It's designed to handle both single SVG images and animations.
 
 #### Properties
 
-* svg_data: Contains the SVG data of the imported file.
-* frames: A list of frames for animations, defined by their crop areas. A frame is represented as a four-float-tuple containing x, y, width, height, all as percentages of the original width/height of the SVG.
-* frames_import_dimensions: A list of sizes (Vector2), in the original pixel sizes, of each frame.
+* `svg_data_frames`: An array of strings, each containing the contents of an SVG file for each frame.
+* `frames_import_dimensions`: An array of Vector2, specifying the width and height dimensions for each frame.
+
+#### Single Frame
+
+Single-frame `SVGTexture2D` resources can be created by importing SVG files directly. The plugin makes a single-frame `SVGTexture2D` from it.
+
+#### Animation
+
+Animations are defined in a separate .json file with the following format. Note that each frame path is relative to the .json animation manifest file:
+
+```json
+{
+    "frames": [
+        "path/to/frame0.svg",
+        "path/to/frame1.svg",
+        "path/to/frame2.svg"
+        // ... more frames
+    ]
+}
+
+```
 
 ### SVGSprite2D Node (Derived from `Sprite2D`)
 

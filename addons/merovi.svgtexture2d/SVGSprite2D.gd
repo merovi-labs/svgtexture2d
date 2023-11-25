@@ -44,4 +44,3 @@ func _rasterize_svg(data, scale):
 	image.load_svg_from_string(data, scale)
 	image.fix_alpha_edges()
 	return image
-	

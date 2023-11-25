@@ -31,7 +31,6 @@ Animations are defined in a separate .json file with the following format. Note 
         "path/to/frame0.svg",
         "path/to/frame1.svg",
         "path/to/frame2.svg"
-        // ... more frames
     ]
 }
 

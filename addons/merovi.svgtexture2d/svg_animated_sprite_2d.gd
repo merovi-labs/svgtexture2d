@@ -1,6 +1,5 @@
 @tool
 extends AnimatedSprite2D
-class_name SVGAnimatedSprite2D
 
 @export var SVGTexture: SVGTexture2D = null:
 	get:

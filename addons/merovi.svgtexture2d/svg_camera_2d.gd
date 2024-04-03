@@ -1,6 +1,5 @@
 @tool
 extends Camera2D
-class_name SVGCamera2D
 
 var base_viewport_size = Vector2(0, 0)
 var original_zoom = Vector2(1, 1)

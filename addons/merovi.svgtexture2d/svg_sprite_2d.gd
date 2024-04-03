@@ -1,6 +1,6 @@
 @tool
-extends AnimatedSprite2D
-class_name SVGAnimatedSprite2D
+extends Sprite2D
+class_name SVGSprite2D
 
 @export var SVGTexture: SVGTexture2D = null:
 	get:
@@ -23,23 +23,25 @@ class_name SVGAnimatedSprite2D
 		sprite_size = value
 		_update_texture()
 
+@export var auto_resize : bool = true
+
 func _ready():
 	var camera = get_viewport().get_camera_2d()
 	if camera and camera is SVGCamera2D:
 		(camera as SVGCamera2D).zoom_changed.connect(_on_zoom_change)
+		_on_zoom_change(camera.get_zoom_percent())
 
 func _on_zoom_change(zoom):
+	if not auto_resize:
+		return
 	Resolution = zoom
 
 func _update_texture():
 	if SVGTexture:
-		var frames = SpriteFrames.new()
-		for i in range(SVGTexture.svg_data_frames.size()):
-			var image = _rasterize_svg(SVGTexture.svg_data_frames[i], sprite_size * Resolution)
-			var texture = ImageTexture.new()
-			texture.set_image(image)
-			frames.add_frame("default", texture)
-		self.sprite_frames = frames
+		var image = _rasterize_svg(SVGTexture.svg_data_frames[0], sprite_size * Resolution)
+		var texture = ImageTexture.new()
+		texture.set_image(image)
+		self.texture = texture
 	scale = Vector2(1.0 / Resolution, 1.0 / Resolution)
 
 func _rasterize_svg(data, scale):
@@ -47,3 +49,4 @@ func _rasterize_svg(data, scale):
 	image.load_svg_from_string(data, scale)
 	image.fix_alpha_edges()
 	return image
+	

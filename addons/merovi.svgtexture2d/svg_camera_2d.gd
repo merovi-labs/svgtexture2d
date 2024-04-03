@@ -17,7 +17,7 @@ func _ready():
 func _on_viewport_resize():
 	var new_size = get_viewport().size
 	_adjust_zoom(Vector2(new_size.x, new_size.y))
-	zoom_changed.emit(_get_zoom_percent())
+	zoom_changed.emit(get_zoom_percent())
 
 func _adjust_zoom(viewport_size: Vector2):
 	var old_aspect_ratio = base_viewport_size.x / base_viewport_size.y
@@ -32,5 +32,5 @@ func _adjust_zoom(viewport_size: Vector2):
 		zoom.y = viewport_size.x / base_viewport_size.x
 		zoom.x = zoom.y
 
-func _get_zoom_percent() -> float:
+func get_zoom_percent() -> float:
 	return zoom.x / original_zoom.x

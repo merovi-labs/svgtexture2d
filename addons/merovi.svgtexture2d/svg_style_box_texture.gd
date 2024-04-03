@@ -1,6 +1,6 @@
 @tool
-extends Sprite2D
-class_name SVGSprite2D
+extends StyleBoxTexture
+class_name SVGStyleBoxTexture
 
 @export var SVGTexture: SVGTexture2D = null:
 	get:
@@ -16,28 +16,15 @@ class_name SVGSprite2D
 		Resolution = value
 		_update_texture()
 
-@export var sprite_size : float = 1.0:
-	get:
-		return sprite_size
-	set(value):
-		sprite_size = value
-		_update_texture()
-
 func _ready():
-	var camera = get_viewport().get_camera_2d()
-	if camera and camera is SVGCamera2D:
-		(camera as SVGCamera2D).zoom_changed.connect(_on_zoom_change)
-
-func _on_zoom_change(zoom):
-	Resolution = zoom
+	_update_texture()
 
 func _update_texture():
 	if SVGTexture:
-		var image = _rasterize_svg(SVGTexture.svg_data_frames[0], sprite_size * Resolution)
+		var image = _rasterize_svg(SVGTexture.svg_data_frames[0], Resolution)
 		var texture = ImageTexture.new()
 		texture.set_image(image)
 		self.texture = texture
-	scale = Vector2(1.0 / Resolution, 1.0 / Resolution)
 
 func _rasterize_svg(data, scale):
 	var image = Image.new()

@@ -28,9 +28,9 @@ Animations are defined in a separate .json file with the following format. Note 
 ```json
 {
     "frames": [
-        "path/to/frame0.svg",
-        "path/to/frame1.svg",
-        "path/to/frame2.svg"
+        "path/to/frame0.svgtex",
+        "path/to/frame1.svgtex",
+        "path/to/frame2.svgtex"
     ]
 }
 
@@ -76,7 +76,9 @@ The primary objective of this plugin is to tackle the problem of blurry rasteriz
 
 ## Usage
 
-In the Godot editor, drag and drop your SVG file into the FileSystem tab.
+I've configured the plugin to expect your svg files to have the extension "svgtex". This fixes a bug where the plugin attempts to import as Texture2D first and you have to re-import it. Inkscape can still open the files as .svgtex extension, you just have to click "All Files." If someone knows a way to tell Godot to use SVGTexture2D before Texture2D on imports, please feel free to put a PR up.
+
+In the Godot editor, drag and drop your SVGTEX file into the FileSystem tab.
 
 When prompted for the import settings, select `SVGTexture2D` from the Import dropdown.
 

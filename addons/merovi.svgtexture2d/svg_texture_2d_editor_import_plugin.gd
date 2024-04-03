@@ -9,7 +9,7 @@ func _get_visible_name():
 	return "SVGTexture2D"
 
 func _get_recognized_extensions():
-	return ["svg", "json"]
+	return ["svgtex", "svgsc", "svg", "json"]
 
 func _get_resource_type():
 	return "SVGTexture2D"
@@ -98,7 +98,11 @@ func _import(source_file, save_path, options, platform_variants, gen_files):
 	var extension = source_file.get_extension().to_lower()
 	
 	match extension:
-		"svg":
+		"svgsc":
+			return _import_single_svg(source_file, save_path)
+		"svgtex":
+			return _import_single_svg(source_file, save_path)
+		"svg": # Backwards compatibility
 			return _import_single_svg(source_file, save_path)
 		"json":
 			return _import_animation_sequence(source_file, save_path)

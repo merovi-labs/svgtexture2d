@@ -6,6 +6,10 @@ This Godot plugin provides the functionality to re-rasterize vector assets at ru
 
 Godot 4.2 or newer.
 
+### Resource Import Bug
+
+Currently, there's an upstream issue with the Godot engine on plugins that create custom types. They are not properly handled on initialization. I expect this will get fixed in Godot 4.3, but until then, you simply have to load the project twice on an initial pull (or whenever you clear the .godot cache).
+
 ## Features
 
 ### SVGTexture2D Resource
@@ -85,6 +89,8 @@ When prompted for the import settings, select `SVGTexture2D` from the Import dro
 Your SVG is now imported as an `SVGTexture2D` resource. You can use it with `SVGSprite2D` or `SVGAnimatedSprite2D` nodes in your scenes.
 
 You can then add an `SVGCamera2D` and you should be able to resize the game and see your `SVGSprite2D` assets automatically accounting for the change in zoom.
+
+Note that SVGAnimatedSprite2D use the '.svgseq' file extension, but you can still use .json for backwards compatibility.
 
 ## License
 

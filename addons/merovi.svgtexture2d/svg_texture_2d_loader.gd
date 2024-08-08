@@ -1,7 +1,8 @@
 @tool
-
 extends ResourceFormatLoader
 class_name SVGTexture2DFormatLoader
+
+const SVGTexture2D = preload("svg_texture_2d.gd")
 
 func _get_recognized_extensions():
 	return PackedStringArray(["sex"])

@@ -2,6 +2,9 @@
 extends AnimatedSprite2D
 class_name SVGAnimatedSprite2D
 
+const SVGCamera2D = preload("svg_camera_2d.gd")
+const SVGTexture2D = preload("svg_texture_2d.gd")
+
 @export var SVGTexture: SVGTexture2D = null:
 	get:
 		return SVGTexture

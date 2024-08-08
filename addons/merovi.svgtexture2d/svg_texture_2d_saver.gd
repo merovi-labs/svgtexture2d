@@ -2,6 +2,8 @@
 extends ResourceFormatSaver
 class_name SVGTexture2DFormatSaver
 
+const SVGTexture2D = preload("svg_texture_2d.gd")
+
 func _recognize(resource):
 	var canRecognize = resource is SVGTexture2D
 	if canRecognize:
